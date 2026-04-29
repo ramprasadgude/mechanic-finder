@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
-import { FaWrench, FaSignOutAlt, FaUser, FaTachometerAlt } from 'react-icons/fa'
+import { FaWrench, FaSignOutAlt, FaTachometerAlt } from 'react-icons/fa'
 import { toast } from 'react-toastify'
 import NotificationBell from './NotificationBell'
 
@@ -14,63 +14,63 @@ const Navbar = () => {
     navigate('/login')
   }
 
+  const getInitials = (name) => {
+    if (!name) return 'U';
+    return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+  }
+
   return (
-    <nav className="glass-panel sticky top-0 z-50 border-b border-zinc-800">
+    <nav className="bg-white sticky top-0 z-50 border-b border-gray-200">
       <div className="max-w-[1200px] mx-auto px-5 lg:px-10">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-3 font-extrabold text-2xl hover:scale-105 transition-transform duration-300">
-            <div className="p-2 bg-gradient-to-tr from-brand-red to-brand-red-light rounded-lg">
-              <FaWrench className="text-white text-xl" />
-            </div>
-            <span className="text-white tracking-tight">Mecha<span className="text-brand-red">Find</span></span>
+          <Link to="/" className="flex items-center gap-2 font-bold text-xl hover:opacity-80 transition-opacity">
+            <FaWrench className="text-[#FF6B35]" />
+            <span className="text-gray-900 tracking-tight">Mechanic<span className="text-[#FF6B35]">Finder</span></span>
           </Link>
 
-
-
           {/* User/Auth Nav Links */}
-          <div className="flex items-center gap-6">
+          <div className="flex items-center justify-end gap-4 ml-auto">
             {user ? (
               <>
                 <Link
                   to="/dashboard"
-                  className="flex items-center gap-2 text-zinc-300 hover:text-white transition-colors text-sm font-medium tracking-wide"
+                  className="flex items-center gap-1.5 text-gray-600 hover:text-[#FF6B35] transition-colors text-sm font-medium"
                 >
-                  <FaTachometerAlt className="text-brand-red text-lg" />
+                  <FaTachometerAlt className="text-gray-400" />
                   Dashboard
                 </Link>
-                <div className="h-5 w-px bg-zinc-700 rounded-full mx-1"></div>
+                <div className="h-4 w-px bg-gray-200 mx-1"></div>
                 
                 <NotificationBell user={user} />
                 
-                <div className="h-5 w-px bg-zinc-700 rounded-full mx-1"></div>
-                <span className="flex items-center gap-2 text-zinc-400 text-sm font-medium">
-                  <div className="p-1.5 bg-zinc-800 rounded-full border border-zinc-700">
-                    <FaUser className="text-brand-red text-xs" />
+                <div className="h-4 w-px bg-gray-200 mx-1"></div>
+                
+                <Link to="/profile" title={user.name} className="flex items-center gap-2 text-gray-900 hover:text-[#FF6B35] transition-colors text-sm font-medium cursor-pointer">
+                  <div className="w-8 h-8 rounded-full bg-orange-100 text-[#FF6B35] border border-orange-200 flex items-center justify-center font-bold text-xs uppercase">
+                    {getInitials(user.name)}
                   </div>
-                  {user.name}
-                  {user.role === 'admin' && <span className="ml-1 text-xs bg-zinc-700 text-white px-1.5 py-0.5 rounded border border-zinc-600">Admin</span>}
-                  {user.role === 'mechanic' && <span className="ml-1 text-xs bg-brand-red text-white px-1.5 py-0.5 rounded">Mechanic</span>}
-                </span>
+                  <span className="hidden sm:inline-block">{user.name.split(' ')[0]}</span>
+                </Link>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-2 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-all hover:border-zinc-500 hover:text-brand-red"
+                  title="Logout"
+                  className="w-[38px] h-[38px] flex items-center justify-center bg-white hover:bg-gray-50 border border-gray-200 text-gray-500 rounded-lg text-sm transition-colors hover:text-red-500 ml-1"
                 >
                   <FaSignOutAlt />
-                  Logout
                 </button>
               </>
             ) : (
               <>
                 <Link
                   to="/login"
-                  className="text-zinc-300 hover:text-white font-medium transition-colors text-sm tracking-wide px-2 py-1"
+                  className="text-gray-600 hover:text-gray-900 font-medium transition-colors text-sm tracking-wide px-3"
                 >
                   Login
                 </Link>
                 <Link
                   to="/register"
-                  className="bg-brand-red text-white px-5 py-2.5 rounded-lg text-sm font-bold transition-all hover:bg-brand-red-light hover:-translate-y-0.5 shadow-[0_4px_14px_0_rgba(234,0,41,0.39)]"
+                  className="bg-[#FF6B35] text-white px-5 h-[38px] flex items-center justify-center rounded-lg text-sm font-semibold transition-colors hover:bg-[#e85b25]"
                 >
                   Register
                 </Link>

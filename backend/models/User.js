@@ -25,6 +25,29 @@ const userSchema = new mongoose.Schema(
       enum: ["user", "admin", "mechanic"],
       default: "user",
     },
+    phone: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    address: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    specialization: {
+      type: String,
+      trim: true,
+      default: "",
+    },
+    experience: {
+      type: Number,
+      min: 0,
+    },
+    availability: {
+      type: Boolean,
+      default: true,
+    },
   },
   { timestamps: true }
 );

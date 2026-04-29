@@ -60,43 +60,43 @@ const NotificationBell = ({ user }) => {
 
   return (
     <div className="relative" ref={dropdownRef}>
-      <button onClick={toggleDropdown} className="relative p-2.5 text-zinc-400 hover:text-white transition-colors rounded-full hover:bg-zinc-800 mt-1">
+      <button onClick={toggleDropdown} className="relative p-2.5 text-gray-500 hover:text-gray-900 transition-colors rounded-full hover:bg-gray-100 mt-1">
         <FaBell className="text-[17px]" />
         {hasUnread && (
           <span className="absolute top-2 right-2.5 flex h-2.5 w-2.5">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-red opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-red shadow-[0_0_8px_rgba(234,0,41,0.8)]"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-red-500 shadow-sm"></span>
           </span>
         )}
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-zinc-900 border border-zinc-800 rounded-2xl shadow-[0_0_30px_rgba(0,0,0,0.8)] z-50 overflow-hidden animate-fade-in">
-          <div className="p-4 border-b border-zinc-800 bg-zinc-950 flex justify-between items-center">
-            <h3 className="text-white font-bold text-sm uppercase tracking-wider">Alerts & Updates</h3>
+        <div className="absolute right-0 mt-2 w-80 bg-white border border-gray-200 rounded-2xl shadow-lg z-50 overflow-hidden animate-fade-in">
+          <div className="p-4 border-b border-gray-100 bg-gray-50 flex justify-between items-center">
+            <h3 className="text-gray-900 font-bold text-sm uppercase tracking-wider">Alerts & Updates</h3>
           </div>
           <div className="max-h-80 overflow-y-auto">
             {notifications.length === 0 ? (
-              <div className="p-6 text-center text-zinc-500 text-sm">No recent activity. Check back later!</div>
+              <div className="p-6 text-center text-gray-500 text-sm">No recent activity. Check back later!</div>
             ) : (
               notifications.map((n, i) => (
-                <div key={i} className="p-4 border-b border-zinc-800/30 hover:bg-zinc-800/50 transition-colors">
-                   <p className="text-[10px] text-zinc-500 font-bold uppercase mb-1">{new Date(n.updatedAt).toLocaleString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
+                <div key={i} className="p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                   <p className="text-[10px] text-gray-500 font-bold uppercase mb-1">{new Date(n.updatedAt).toLocaleString('en-IN', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</p>
                    {user.role === 'user' ? (
-                       <p className="text-sm text-zinc-300">
+                       <p className="text-sm text-gray-700">
                          <strong>{n.mechanic?.name || 'Your Mechanic'}</strong> {
-                           n.status === 'Accepted' ? <span className="text-emerald-400">accepted your booking!</span> : 
-                           n.status === 'Completed' ? <span className="text-blue-400">marked your service as Complete.</span> : 
-                           n.status === 'Rejected' ? <span className="text-red-400">declined your request.</span> :
+                           n.status === 'Accepted' ? <span className="text-green-600 font-medium">accepted your booking!</span> : 
+                           n.status === 'Completed' ? <span className="text-blue-600 font-medium">marked your service as Complete.</span> : 
+                           n.status === 'Rejected' ? <span className="text-red-500 font-medium">declined your request.</span> :
                            `updated your request to ${n.status}.`
                          }
                        </p>
                    ) : (
-                       <p className="text-sm text-zinc-300">
+                       <p className="text-sm text-gray-700">
                          {n.status === 'Pending' ? (
                             <span><strong>{n.user?.name || 'A customer'}</strong> sent a new {n.isEmergency ? <span className="text-red-500 font-bold">🚨 SOS</span> : 'Booking'} request!</span>
                          ) : (
-                            <span>You updated a job from <strong>{n.user?.name || 'a customer'}</strong> to <span className="text-brand-red">{n.status}</span>.</span>
+                            <span>You updated a job from <strong>{n.user?.name || 'a customer'}</strong> to <span className="text-blue-600 font-medium">{n.status}</span>.</span>
                          )}
                        </p>
                    )}

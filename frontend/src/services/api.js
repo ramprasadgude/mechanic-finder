@@ -20,6 +20,7 @@ API.interceptors.request.use((config) => {
 export const registerUser = (data) => API.post('/auth/register', data)
 export const loginUser = (data) => API.post('/auth/login', data)
 export const getUserProfile = () => API.get('/auth/profile')
+export const updateUserProfile = (data) => API.put('/users/profile', data)
 
 // MECHANICS (CRUD)
 export const getMechanics = () => API.get('/mechanics')

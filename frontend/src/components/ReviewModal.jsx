@@ -33,7 +33,7 @@ const ReviewModal = ({ request, mechanic, onSubmit, onClose }) => {
               />
               <FaStar
                 className="text-2xl transition-colors duration-200"
-                color={ratingValue <= currentRating ? "#fbbf24" : "#475569"}
+                color={ratingValue <= currentRating ? "#F97316" : "#E2E8F0"}
               />
             </label>
           )
@@ -43,13 +43,13 @@ const ReviewModal = ({ request, mechanic, onSubmit, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-      <div className="bg-bg-dark border border-slate-700 w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-slide-up transform transition-all">
-        <div className="p-5 border-b border-slate-700/50 flex justify-between items-center bg-slate-800/20">
-          <h2 className="text-xl font-bold text-white tracking-tight">Rate {mechanic.name}</h2>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/40 backdrop-blur-sm animate-fade-in">
+      <div className="bg-white border border-gray-100 w-full max-w-md rounded-3xl shadow-2xl overflow-hidden animate-slide-up transform transition-all">
+        <div className="p-5 border-b border-gray-100 flex justify-between items-center bg-gray-50">
+          <h2 className="text-xl font-bold text-gray-900 tracking-tight">Rate {mechanic.name}</h2>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-white transition-colors p-1.5 hover:bg-slate-700/50 rounded-lg"
+            className="text-gray-400 hover:text-gray-900 transition-colors p-2 hover:bg-gray-200 rounded-full"
           >
             <FaTimes />
           </button>
@@ -58,46 +58,46 @@ const ReviewModal = ({ request, mechanic, onSubmit, onClose }) => {
         <form onSubmit={handleSubmit} className="p-6">
           
           <div className="flex flex-col gap-4 mb-6">
-            <div className="flex justify-between items-center bg-slate-900/50 p-3 rounded-xl border border-slate-700/50">
-               <span className="text-slate-300 font-bold text-sm">💰 Price Fairness</span>
+            <div className="flex justify-between items-center bg-gray-50 p-3 rounded-2xl border border-gray-100">
+               <span className="text-gray-700 font-bold text-sm">💰 Price Fairness</span>
                {renderStars(priceRating, setPriceRating)}
             </div>
-            <div className="flex justify-between items-center bg-slate-900/50 p-3 rounded-xl border border-slate-700/50">
-               <span className="text-slate-300 font-bold text-sm">🚀 Speed of Service</span>
+            <div className="flex justify-between items-center bg-gray-50 p-3 rounded-2xl border border-gray-100">
+               <span className="text-gray-700 font-bold text-sm">🚀 Speed of Service</span>
                {renderStars(speedRating, setSpeedRating)}
             </div>
-            <div className="flex justify-between items-center bg-slate-900/50 p-3 rounded-xl border border-slate-700/50">
-               <span className="text-slate-300 font-bold text-sm">🛠 Quality of Work</span>
+            <div className="flex justify-between items-center bg-gray-50 p-3 rounded-2xl border border-gray-100">
+               <span className="text-gray-700 font-bold text-sm">🛠 Quality of Work</span>
                {renderStars(qualityRating, setQualityRating)}
             </div>
           </div>
 
           <div className="mb-6">
-            <label className="block text-slate-300 text-sm font-bold mb-2">
+            <label className="block text-gray-700 text-sm font-bold mb-2">
               Review Comments (optional)
             </label>
             <textarea
-              className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-purple focus:ring-1 focus:ring-brand-purple transition-all resize-none shadow-inner"
+              className="w-full bg-gray-50 border border-gray-200 rounded-2xl px-4 py-3 text-gray-900 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition-all resize-none shadow-sm"
               rows={4}
               placeholder="Share details of your experience..."
               value={comment}
               onChange={(e) => setComment(e.target.value)}
               maxLength={500}
             ></textarea>
-            <p className="text-right text-xs text-slate-500 mt-1">{comment.length}/500</p>
+            <p className="text-right text-xs text-gray-500 mt-1">{comment.length}/500</p>
           </div>
 
           <div className="flex gap-4 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 bg-transparent border border-slate-700 hover:bg-slate-800 text-slate-300 py-2.5 rounded-xl font-bold transition-colors"
+              className="flex-1 bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 py-3 rounded-xl font-bold transition-colors shadow-sm"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="flex-1 bg-gradient-to-r from-brand-red to-brand-red-light hover:to-orange-400 text-white py-2.5 rounded-xl font-bold transition-all shadow-[0_0_15px_rgba(249,115,22,0.3)] hover:shadow-[0_0_20px_rgba(249,115,22,0.5)]"
+              className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold transition-all shadow-md hover:-translate-y-0.5"
             >
               Submit Review
             </button>

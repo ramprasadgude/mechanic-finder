@@ -20,13 +20,18 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('mechafind_user', JSON.stringify(userData))
   }
 
+  const updateUser = (userData) => {
+    setUser(userData)
+    localStorage.setItem('mechafind_user', JSON.stringify(userData))
+  }
+
   const logout = () => {
     setUser(null)
     localStorage.removeItem('mechafind_user')
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout, loading }}>
+    <AuthContext.Provider value={{ user, login, logout, updateUser, loading }}>
       {children}
     </AuthContext.Provider>
   )

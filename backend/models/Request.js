@@ -14,8 +14,8 @@ const requestSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["Pending", "Accepted", "Completed", "Rejected"],
-      default: "Pending",
+      enum: ["Pending Admin Approval", "Pending", "Accepted", "Completed", "Rejected"],
+      default: "Pending Admin Approval",
     },
     problemDescription: {
       type: String,

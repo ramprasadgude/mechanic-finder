@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
-import { FaPlus, FaSearch, FaWrench, FaListAlt, FaUserShield, FaTimes } from 'react-icons/fa'
+import { FaPlus, FaSearch, FaWrench, FaListAlt, FaUserShield, FaTimes, FaChartBar, FaCar } from 'react-icons/fa'
 import {
   getMechanics,
   createMechanic,
@@ -95,6 +95,7 @@ const Dashboard = () => {
       const { data } = await getUsers()
       setUsersList(data)
     } catch (err) {
+      console.error(err)
       toast.error('Failed to load users')
     } finally {
       setUsersLoading(false)
@@ -161,6 +162,7 @@ const Dashboard = () => {
       toast.success(isApproved ? 'Mechanic approved successfully!' : 'Mechanic approval revoked!')
       fetchMechanics()
     } catch (err) {
+      console.error(err)
       toast.error('Failed to update mechanic approval status')
     }
   }
@@ -172,6 +174,7 @@ const Dashboard = () => {
       toast.success('User deleted successfully!')
       fetchUsersList()
     } catch (err) {
+      console.error(err)
       toast.error('Failed to delete user')
     }
   }
@@ -289,33 +292,33 @@ const Dashboard = () => {
   )
 
   return (
-    <div className="min-h-screen bg-bg-dark pb-16 relative">
+    <div className="min-h-screen bg-[#F9FAFB] pb-16 relative">
       {/* SOS Fixed Button */}
       {user?.role === 'user' && (
         <button
           onClick={handleEmergency}
-          className="fixed bottom-6 right-6 z-50 flex items-center justify-center gap-2 bg-red-600 hover:bg-red-500 text-white px-6 py-4 rounded-2xl font-bold shadow-2xl hover:-translate-y-1 transition-all animate-pulse hover:animate-none border border-red-500"
+          className="fixed bottom-6 right-6 z-50 flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 h-[48px] rounded-[12px] font-bold transition-all duration-300 shadow-[0_4px_14px_0_rgba(239,68,68,0.39)] hover:scale-105"
         >
-          <FaWrench className="animate-bounce" />
+          <FaWrench />
           SOS Emergency
         </button>
       )}
 
-      <div className="max-w-[1200px] mx-auto px-5 lg:px-10 pt-10 animate-fade-in">
+      <div className="max-w-[1200px] mx-auto px-5 lg:px-10 pt-10">
         {/* Welcome Block */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 mb-8">
           <div>
-            <h1 className="text-white text-3xl font-extrabold tracking-tight">
-              Welcome back, <span className="text-brand-red">{user?.name}</span>
+            <h1 className="text-[#111827] text-2xl font-bold tracking-tight">
+              Welcome back, <span className="text-[#FF6B35]">{user?.name}</span>
             </h1>
-            <p className="text-zinc-400 text-sm mt-2 font-medium">
+            <p className="text-[#6B7280] text-sm mt-1 font-medium">
               You have {mechanics.length} trusted mechanic{mechanics.length !== 1 ? 's' : ''} in your database.
             </p>
           </div>
           {(user?.role === 'mechanic' || user?.role === 'admin') && (
             <button
               onClick={() => setShowForm(true)}
-              className="flex-none flex items-center justify-center gap-2 bg-brand-red hover:bg-brand-red-light text-white px-6 py-3 rounded-xl font-bold transition-all w-full sm:w-auto hover:-translate-y-0.5 shadow-[0_4px_14px_0_rgba(234,0,41,0.39)]"
+              className="flex-none flex items-center justify-center gap-2 bg-[#FF6B35] hover:bg-[#e85b25] text-white px-6 h-[38px] rounded-[8px] font-semibold transition-colors w-full sm:w-auto text-sm"
             >
               <FaPlus />
               Add Profile
@@ -326,54 +329,54 @@ const Dashboard = () => {
         {/* Global Search Bar (Full Width) */}
         <div className="relative mb-8 w-full">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <FaSearch className="text-zinc-500 text-lg" />
+            <FaSearch className="text-[#6B7280]" />
           </div>
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search mechanics by name, specialty, or location..."
-            className="w-full bg-zinc-900 border border-zinc-800 rounded-xl pl-12 pr-4 py-4 text-white text-base focus:outline-none focus:ring-2 focus:ring-brand-red focus:border-transparent transition-all shadow-sm placeholder-zinc-600"
+            className="w-full bg-white border border-[#E5E7EB] rounded-[12px] h-[48px] pl-12 pr-4 text-[#111827] text-sm focus:outline-none focus:border-[#FF6B35] transition-colors placeholder-[#6B7280]"
           />
         </div>
 
         {/* Tabs */}
-        <div className="flex gap-4 mb-8 pb-4 overflow-x-auto border-b border-zinc-800">
+        <div className="flex gap-1 mb-8 overflow-x-auto border-b border-[#E5E7EB] bg-white rounded-[8px] border inline-flex p-1">
           <button 
             onClick={() => setActiveTab('directory')}
-            className={`px-8 py-3 rounded-t-lg font-bold transition-all whitespace-nowrap border-b-2 ${activeTab === 'directory' ? 'border-brand-red text-brand-red bg-zinc-900/50' : 'border-transparent text-zinc-500 hover:text-white hover:bg-zinc-900'}`}
+            className={`px-4 py-1.5 rounded-[6px] font-semibold text-sm transition-colors whitespace-nowrap flex items-center gap-2 ${activeTab === 'directory' ? 'bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-[#FF6B35]' : 'text-[#6B7280] hover:text-[#111827]'}`}
           >
-            Directory
+            <FaWrench /> Directory
           </button>
-          {(user?.role === 'user' || user?.role === 'mechanic' || user?.role === 'admin') && (
+          {user && (
             <button 
               onClick={() => setActiveTab('requests')}
-              className={`px-8 py-3 rounded-t-lg font-bold transition-all whitespace-nowrap border-b-2 ${activeTab === 'requests' ? 'border-brand-red text-brand-red bg-zinc-900/50' : 'border-transparent text-zinc-500 hover:text-white hover:bg-zinc-900'}`}
+              className={`px-4 py-1.5 rounded-[6px] font-semibold text-sm transition-colors whitespace-nowrap flex items-center gap-2 ${activeTab === 'requests' ? 'bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-[#FF6B35]' : 'text-[#6B7280] hover:text-[#111827]'}`}
             >
-              {user?.role === 'user' ? 'My Requests' : user?.role === 'mechanic' ? 'Incoming Requests' : 'All System Requests'}
+              <FaListAlt /> {user?.role === 'user' ? 'My Bookings' : 'Requests'}
             </button>
           )}
           {user?.role === 'mechanic' && (
             <button 
               onClick={() => setActiveTab('analytics')}
-              className={`px-8 py-3 rounded-t-lg font-bold transition-all whitespace-nowrap border-b-2 ${activeTab === 'analytics' ? 'border-brand-red text-brand-red bg-zinc-900/50' : 'border-transparent text-zinc-500 hover:text-white hover:bg-zinc-900'}`}
+              className={`px-4 py-1.5 rounded-[6px] font-semibold text-sm transition-colors whitespace-nowrap flex items-center gap-2 ${activeTab === 'analytics' ? 'bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-[#FF6B35]' : 'text-[#6B7280] hover:text-[#111827]'}`}
             >
-              My Analytics
+              <FaChartBar /> Performance
             </button>
           )}
           {user?.role === 'admin' && (
             <>
               <button 
                 onClick={() => setActiveTab('admin-analytics')}
-                className={`px-8 py-3 rounded-t-lg font-bold transition-all whitespace-nowrap border-b-2 ${activeTab === 'admin-analytics' ? 'border-brand-red text-brand-red bg-zinc-900/50' : 'border-transparent text-zinc-500 hover:text-white hover:bg-zinc-900'}`}
+                className={`px-4 py-1.5 rounded-[6px] font-semibold text-sm transition-colors whitespace-nowrap flex items-center gap-2 ${activeTab === 'admin-analytics' ? 'bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-[#FF6B35]' : 'text-[#6B7280] hover:text-[#111827]'}`}
               >
-                Platform Overview
+                <FaChartBar /> Analytics
               </button>
               <button 
                 onClick={() => setActiveTab('users')}
-                className={`px-8 py-3 rounded-t-lg font-bold transition-all whitespace-nowrap border-b-2 ${activeTab === 'users' ? 'border-brand-red text-brand-red bg-zinc-900/50' : 'border-transparent text-zinc-500 hover:text-white hover:bg-zinc-900'}`}
+                className={`px-4 py-1.5 rounded-[6px] font-semibold text-sm transition-colors whitespace-nowrap flex items-center gap-2 ${activeTab === 'users' ? 'bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-[#FF6B35]' : 'text-[#6B7280] hover:text-[#111827]'}`}
               >
-                Manage Users
+                <FaUserShield /> Users
               </button>
             </>
           )}
@@ -381,105 +384,106 @@ const Dashboard = () => {
 
         {activeTab === 'directory' ? (
           <>
-            <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
-              <div className="flex bg-zinc-900 rounded-lg p-1 border border-zinc-800 w-full sm:w-auto">
+            {/* AI Smart Search (Heuristic System) */}
+            <div className="mb-8 p-6 bg-white border border-[#E5E7EB] rounded-[12px]">
+              <h3 className="font-bold text-[#111827] text-lg mb-2 flex items-center gap-2">
+                 ⚡ Describe what's wrong 
+                 <span className="bg-[#FFF5F1] text-[#FF6B35] text-[10px] uppercase font-bold px-2 py-0.5 rounded-[4px] border border-[#FFE4D6]">Beta AI</span>
+              </h3>
+              <p className="text-sm text-[#6B7280] mb-4">Our match system will analyze your symptoms and suggest a mechanic.</p>
+              <form onSubmit={handleAISmartSearch} className="flex gap-2">
+                 <input 
+                   type="text"
+                   value={aiQuery}
+                   onChange={e => setAiQuery(e.target.value)}
+                   className="flex-1 bg-[#F9FAFB] border border-[#E5E7EB] rounded-[8px] h-[38px] px-3 text-[#111827] text-sm focus:outline-none focus:border-[#FF6B35] transition-colors placeholder-[#6B7280]"
+                   placeholder="e.g. 'My brakes are squeaking' or 'Engine overheats'"
+                 />
+                 <button 
+                   type="submit" 
+                   disabled={loading || !aiQuery.trim()}
+                   className="bg-[#111827] hover:bg-black text-white disabled:opacity-50 px-6 h-[38px] rounded-[8px] font-semibold text-sm transition-colors whitespace-nowrap"
+                 >
+                   {loading ? 'Analyzing...' : 'Diagnose'}
+                 </button>
+                 {aiDiagnostics && (
+                   <button 
+                     type="button" 
+                     onClick={clearAISearch}
+                     className="bg-white hover:bg-[#F9FAFB] text-[#111827] border border-[#E5E7EB] px-6 h-[38px] rounded-[8px] font-semibold text-sm transition-colors whitespace-nowrap"
+                   >
+                     Clear
+                   </button>
+                 )}
+              </form>
+
+              {aiDiagnostics && (
+                <div className="mt-6 border-t border-[#E5E7EB] pt-4">
+                  <h4 className="font-bold text-[#111827] mb-2 text-sm">Diagnostic Match Results</h4>
+                  <div className="bg-[#FFF5F1] border border-[#FFE4D6] p-4 rounded-[8px]">
+                     <p className="text-[#FF6B35] font-semibold mb-1">Suggested Specialty: <span className="font-bold">{aiDiagnostics.suggestedSpecialty}</span></p>
+                     <p className="text-[#6B7280] text-sm">{aiDiagnostics.rawAnalysis || 'Match detected via internal heuristics.'}</p>
+                     <p className="text-xs text-[#FF6B35] mt-3 font-bold uppercase tracking-widest">{filtered.length} Local Mechanics Found</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-xl font-bold text-[#111827]">
+                {aiDiagnostics ? 'Suggested Mechanics' : 'Available Mechanics'}
+              </h2>
+              
+              <div className="bg-[#F9FAFB] border border-[#E5E7EB] p-1 rounded-[8px] flex">
                 <button
                   onClick={() => setDirectoryView('list')}
-                  className={`flex-1 sm:flex-none px-6 py-2 rounded-md font-bold text-sm transition-all ${directoryView === 'list' ? 'bg-brand-red text-white shadow-md' : 'text-zinc-500 hover:text-zinc-300'}`}
+                  className={`px-4 py-1.5 rounded-[6px] text-xs font-semibold transition-colors ${directoryView === 'list' ? 'bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-[#FF6B35]' : 'text-[#6B7280] hover:text-[#111827]'}`}
                 >
                   List View
                 </button>
                 <button
                   onClick={() => setDirectoryView('map')}
-                  className={`flex-1 sm:flex-none px-6 py-2 rounded-md font-bold text-sm transition-all ${directoryView === 'map' ? 'bg-brand-red text-white shadow-md' : 'text-zinc-500 hover:text-zinc-300'}`}
+                  className={`px-4 py-1.5 rounded-[6px] text-xs font-semibold transition-colors ${directoryView === 'map' ? 'bg-white shadow-[0_1px_3px_rgba(0,0,0,0.1)] text-[#FF6B35]' : 'text-[#6B7280] hover:text-[#111827]'}`}
                 >
                   Map View
                 </button>
               </div>
-              <form onSubmit={handleAISmartSearch} className="flex relative w-full sm:w-auto">
-                <input 
-                  type="text" 
-                  value={aiQuery} 
-                  onChange={(e) => setAiQuery(e.target.value)} 
-                  placeholder="Ask AI: 'My car won't start...'" 
-                  className="bg-zinc-900 border border-zinc-800 rounded-xl rounded-r-none px-4 py-2 text-white text-sm focus:outline-none focus:ring-1 focus:ring-brand-red flex-grow sm:w-64"
-                />
-                <button 
-                  type="submit"
-                  className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 border border-zinc-700 border-l-0 px-4 py-2 rounded-xl rounded-l-none transition-all font-bold flex items-center text-sm shadow-sm"
-                >
-                  ✨ Search
-                </button>
-              </form>
             </div>
-
-            {/* AI Diagnostics Card */}
-            {aiDiagnostics && (
-              <div className="mb-8 bg-zinc-900 border border-brand-red/30 rounded-2xl p-6 shadow-[0_0_30px_rgba(234,0,41,0.1)] relative overflow-hidden animate-fade-in group">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-brand-red/5 rounded-full blur-3xl -mr-20 -mt-20 pointer-events-none"></div>
-                <div className="flex justify-between items-start mb-4 relative z-10">
-                  <div className="flex items-center gap-3">
-                    <div className="bg-brand-red/10 text-brand-red p-2.5 rounded-xl border border-brand-red/20 shadow-sm">
-                      <FaWrench className="text-xl" />
-                    </div>
-                    <div>
-                      <h2 className="text-white font-extrabold text-xl tracking-tight">AI Predictive Diagnosis</h2>
-                      <p className="text-zinc-400 text-sm font-medium mt-0.5">Automated heuristic analysis based on your symptoms</p>
-                    </div>
-                  </div>
-                  <button onClick={clearAISearch} className="text-zinc-500 hover:text-white transition-colors">
-                     <FaTimes className="text-xl" />
-                  </button>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 relative z-10 mb-4">
-                   <div className="bg-zinc-950/60 rounded-xl p-4 border border-zinc-800/80">
-                      <span className="text-xs text-zinc-500 font-bold uppercase tracking-widest mb-2 block">Possible Issues</span>
-                      <ul className="list-disc pl-4 text-zinc-300 text-sm space-y-1">
-                        {aiDiagnostics.possibleIssues.map((iss, idx) => (
-                           <li key={idx} className="font-medium text-white">{iss}</li>
-                        ))}
-                      </ul>
-                   </div>
-                   <div className="bg-zinc-950/60 rounded-xl p-4 border border-zinc-800/80 flex flex-col justify-center">
-                      <span className="text-xs text-zinc-500 font-bold uppercase tracking-widest mb-1 block">Estimated Cost</span>
-                      <span className="text-3xl font-extrabold text-green-400">{aiDiagnostics.estimatedCost}</span>
-                   </div>
-                   <div className="bg-zinc-950/60 rounded-xl p-4 border border-zinc-800/80 flex flex-col justify-center">
-                      <span className="text-xs text-zinc-500 font-bold uppercase tracking-widest mb-1 block">Urgency Level</span>
-                      <span className={`text-2xl font-extrabold ${
-                        aiDiagnostics.urgency === 'Critical' ? 'text-red-500' :
-                        aiDiagnostics.urgency === 'High' ? 'text-orange-400' :
-                        aiDiagnostics.urgency === 'Medium' ? 'text-yellow-400' : 'text-blue-400'
-                      }`}>{aiDiagnostics.urgency}</span>
-                   </div>
-                </div>
-
-                <div className="bg-blue-500/10 border border-blue-500/20 rounded-xl p-4 relative z-10">
-                   <p className="text-blue-100 text-sm font-medium"><strong className="text-blue-400">💡 Advice:</strong> {aiDiagnostics.advice}</p>
-                </div>
-              </div>
-            )}
 
             {/* Mechanics Grid or Map */}
             {loading ? (
-              <div className="flex items-center justify-center py-24">
-                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-brand-red"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="bg-white rounded-[12px] p-6 h-48 border border-[#E5E7EB] flex flex-col justify-between">
+                    <div className="flex justify-between items-start">
+                      <div className="space-y-4 w-full">
+                        <div className="h-4 bg-[#F9FAFB] rounded w-1/2"></div>
+                        <div className="h-3 bg-[#F9FAFB] rounded w-1/4"></div>
+                        <div className="h-3 bg-[#F9FAFB] rounded w-1/3"></div>
+                      </div>
+                      <div className="h-6 w-16 bg-[#F9FAFB] rounded"></div>
+                    </div>
+                    <div className="flex gap-2 mt-4">
+                      <div className="flex-1 h-8 bg-[#F9FAFB] rounded-[8px]"></div>
+                      <div className="flex-[2] h-8 bg-[#F9FAFB] rounded-[8px]"></div>
+                    </div>
+                  </div>
+                ))}
               </div>
             ) : filtered.length === 0 ? (
-              <div className="text-center py-24 border border-dashed border-zinc-800 rounded-2xl">
-                <div className="w-16 h-16 bg-zinc-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <FaWrench className="text-zinc-600 text-2xl" />
+              <div className="text-center py-20 bg-white border border-[#E5E7EB] rounded-[12px]">
+                <div className="w-16 h-16 bg-[#F9FAFB] border border-[#E5E7EB] rounded-full flex items-center justify-center mx-auto mb-4">
+                  <FaWrench className="text-[#6B7280] text-2xl" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2">No Mechanics Found</h3>
-                <p className="text-zinc-500 text-sm mb-6">
-                  {search ? 'Try adjusting your search terms.' : 'Your directory is empty. Add a mechanic to get started.'}
+                <h3 className="text-lg font-bold text-[#111827] mb-1">No Mechanics Found</h3>
+                <p className="text-[#6B7280] text-sm mb-6">
+                  {search ? 'Try adjusting your search terms.' : 'Your directory is empty. Add a mechanic.'}
                 </p>
                 {search ? (
-                  <button onClick={() => setSearch('')} className="bg-zinc-800 hover:bg-zinc-700 text-white px-6 py-2 rounded-xl transition-all font-bold border border-zinc-700">Clear Search</button>
+                  <button onClick={() => setSearch('')} className="bg-white hover:bg-[#F9FAFB] text-[#111827] px-6 h-[38px] rounded-[8px] transition-colors font-semibold text-sm border border-[#E5E7EB]">Clear Search</button>
                 ) : (
                   (user?.role === 'mechanic' || user?.role === 'admin') && (
-                    <button onClick={() => setShowForm(true)} className="bg-brand-red hover:bg-brand-red-light shadow-[0_0_15px_rgba(234,0,41,0.3)] hover:-translate-y-0.5 text-white px-6 py-2 rounded-xl transition-all font-bold">Add Profile</button>
+                    <button onClick={() => setShowForm(true)} className="bg-[#FF6B35] hover:bg-[#e85b25] text-white px-6 h-[38px] rounded-[8px] transition-colors font-semibold text-sm">Add Profile</button>
                   )
                 )}
               </div>
@@ -499,19 +503,28 @@ const Dashboard = () => {
                   ))}
                 </div>
               ) : (
-                <MapView mechanics={filtered} onRequest={(m) => setRequestModalMechanic(m)} />
+                <div className="rounded-[12px] overflow-hidden border border-[#E5E7EB]">
+                  <MapView mechanics={filtered} onRequest={(m) => setRequestModalMechanic(m)} />
+                </div>
               )
             )}
           </>
         ) : activeTab === 'requests' ? (
           /* Requests Tab */
           <div>
-            <h2 className="text-2xl font-bold text-white mb-6">
-              {user?.role === 'user' ? 'Service Requests' : user?.role === 'mechanic' ? 'Incoming Service Requests' : 'Global Admin Requests'}
+            <h2 className="text-xl font-bold text-[#111827] mb-6 flex items-center gap-2">
+              <FaListAlt className="text-[#FF6B35]" />
+              {user?.role === 'user' ? 'Service Bookings' : user?.role === 'mechanic' ? 'Incoming Requests' : 'Global Requests'}
             </h2>
             {requestsLoading ? (
-              <div className="flex items-center justify-center py-24">
-                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-brand-red"></div>
+              <div className="space-y-4">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="bg-white rounded-[12px] p-6 h-32 border border-[#E5E7EB]">
+                    <div className="h-4 bg-[#F9FAFB] rounded w-1/4 mb-4"></div>
+                    <div className="h-3 bg-[#F9FAFB] rounded w-1/2 mb-2"></div>
+                    <div className="h-3 bg-[#F9FAFB] rounded w-1/3"></div>
+                  </div>
+                ))}
               </div>
             ) : (
               <RequestList 
@@ -539,55 +552,78 @@ const Dashboard = () => {
         ) : (
           /* Users Tab */
           <div>
-            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2">
-              <FaUserShield className="text-brand-red" />
+            <h2 className="text-xl font-bold text-[#111827] mb-6 flex items-center gap-2">
+              <FaUserShield className="text-[#FF6B35]" />
               Manage Users
             </h2>
             {usersLoading ? (
-              <div className="flex items-center justify-center py-24">
-                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-brand-red"></div>
+              <div className="space-y-4">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="bg-white rounded-[12px] h-12 border border-[#E5E7EB]"></div>
+                ))}
               </div>
             ) : (
-              <div className="bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden">
+              <div className="bg-white border border-[#E5E7EB] rounded-[12px] overflow-hidden">
                 <table className="w-full text-left">
-                  <thead className="bg-zinc-950 border-b border-zinc-800">
+                  <thead className="bg-[#F9FAFB] border-b border-[#E5E7EB]">
                     <tr>
-                      <th className="px-6 py-4 text-zinc-400 font-bold text-sm">Name</th>
-                      <th className="px-6 py-4 text-zinc-400 font-bold text-sm">Email</th>
-                      <th className="px-6 py-4 text-zinc-400 font-bold text-sm">Role</th>
-                      <th className="px-6 py-4 text-zinc-400 font-bold text-sm text-right">Actions</th>
+                      <th className="px-6 py-4 text-[#6B7280] font-semibold text-xs uppercase tracking-wider">Name</th>
+                      <th className="px-6 py-4 text-[#6B7280] font-semibold text-xs uppercase tracking-wider">Email</th>
+                      <th className="px-6 py-4 text-[#6B7280] font-semibold text-xs uppercase tracking-wider">Role</th>
+                      <th className="px-6 py-4 text-[#6B7280] font-semibold text-xs uppercase tracking-wider text-right">Actions</th>
                     </tr>
                   </thead>
                   <tbody>
                     {usersList.map(u => (
-                      <tr key={u._id} className="border-b border-zinc-800/50 hover:bg-zinc-800/20 transition-colors">
-                        <td className="px-6 py-4 text-white font-medium">{u.name}</td>
-                        <td className="px-6 py-4 text-zinc-400 text-sm">{u.email}</td>
+                      <tr key={u._id} className="border-b border-[#E5E7EB] hover:bg-[#F9FAFB] transition-colors last:border-0">
+                        <td className="px-6 py-4 text-[#111827] font-semibold text-sm">{u.name}</td>
+                        <td className="px-6 py-4 text-[#6B7280] text-sm">{u.email}</td>
                         <td className="px-6 py-4">
-                          <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                            u.role === 'admin' ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' :
-                            u.role === 'mechanic' ? 'bg-brand-red/10 text-brand-red border border-brand-red/20' :
-                            'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase border ${
+                            u.role === 'admin' ? 'bg-purple-50 text-purple-600 border-purple-200' :
+                            u.role === 'mechanic' ? 'bg-blue-50 text-blue-600 border-blue-200' :
+                            'bg-gray-100 text-gray-600 border-gray-200'
                           }`}>
                             {u.role.toUpperCase()}
                           </span>
                         </td>
                         <td className="px-6 py-4 text-right">
-                          {u._id !== user._id && (
-                            <button
-                              onClick={() => handleDeleteUser(u._id)}
-                              className="text-red-400 hover:text-red-300 p-2 rounded-lg hover:bg-red-400/10 transition-colors border border-transparent hover:border-red-400/20"
-                              title="Delete User"
-                            >
-                              <FaTimes />
-                            </button>
-                          )}
+                          <div className="flex justify-end items-center gap-2">
+                            {u.role === 'mechanic' && (() => {
+                              const mechanicProfile = mechanics.find(m => m.user?._id === u._id || m.user === u._id);
+                              if (mechanicProfile) {
+                                return (
+                                  <button
+                                    onClick={() => handleApproveMechanic(mechanicProfile._id, !mechanicProfile.isApproved)}
+                                    className={`h-[30px] px-3 rounded-[8px] text-xs font-semibold transition-colors border ${
+                                      mechanicProfile.isApproved 
+                                        ? 'bg-white text-red-500 border-[#E5E7EB] hover:border-red-200 hover:bg-red-50' 
+                                        : 'bg-green-50 text-green-600 border-green-200 hover:bg-green-100'
+                                    }`}
+                                    title={mechanicProfile.isApproved ? "Revoke Approval" : "Approve Mechanic"}
+                                  >
+                                    {mechanicProfile.isApproved ? 'Revoke' : 'Approve'}
+                                  </button>
+                                );
+                              }
+                              return null;
+                            })()}
+                            {u._id !== user._id && (
+                              <button
+                                onClick={() => handleDeleteUser(u._id)}
+                                className="text-red-500 hover:text-red-600 h-[30px] w-[30px] flex items-center justify-center rounded-[8px] hover:bg-red-50 transition-colors border border-transparent hover:border-red-200"
+                                title="Delete User"
+                              >
+                                <FaTimes />
+                              </button>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     ))}
                     {usersList.length === 0 && (
                       <tr>
-                        <td colSpan="4" className="px-6 py-8 text-center text-zinc-500">No users found.</td>
+                        <td colSpan="4" className="px-6 py-8 text-center text-[#6B7280] text-sm">No users found.</td>
                       </tr>
                     )}
                   </tbody>

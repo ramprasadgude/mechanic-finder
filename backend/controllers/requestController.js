@@ -59,7 +59,10 @@ const getMechanicRequests = async (req, res) => {
       return res.status(404).json({ message: "Mechanic profile not found" });
     }
 
-    const requests = await Request.find({ mechanic: mechanicProfile._id })
+    const requests = await Request.find({ 
+      mechanic: mechanicProfile._id,
+      status: { $ne: "Pending Admin Approval" }
+    })
       .populate("user", "name email phone")
       .populate("mechanic", "name location phone _id geometry")
       .sort({ createdAt: -1 });
@@ -109,11 +112,10 @@ const updateRequestStatus = async (req, res) => {
     const mechanicProfile = await Mechanic.findById(request.mechanic);
     
     // Check if the user updating is either an admin or the associated mechanic
-    if (
-      mechanicProfile.user.toString() !== req.user._id.toString() &&
-      req.user.role !== "admin"
-    ) {
-      return res.status(403).json({ message: "Not authorized to update this request" });
+    if (req.user.role !== "admin") {
+      if (!mechanicProfile || mechanicProfile.user.toString() !== req.user._id.toString()) {
+        return res.status(403).json({ message: "Not authorized to update this request" });
+      }
     }
 
     request.status = status;

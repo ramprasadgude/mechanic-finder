@@ -32,7 +32,7 @@ router.put(
   "/:id/status",
   protect,
   [
-    body("status", "Invalid status").isIn(["Accepted", "Rejected", "Completed"]),
+    body("status", "Invalid status").isIn(["Pending", "Accepted", "Rejected", "Completed"]),
   ],
   updateRequestStatus
 );

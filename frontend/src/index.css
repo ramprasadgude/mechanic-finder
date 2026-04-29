@@ -1,14 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-brand-red: #ea0029; /* Vibrant AutoWorks Racing Red */
-  --color-brand-red-light: #ff3355; 
-  --color-bg-dark: #0f1012; /* Very deep black-grey */
-  --color-bg-panel: #16171a; /* slightly lighter for cards, but still very dark */
-  --color-glass-border: #2c2d33; /* subtle border matching dark slate */
-
-  --animate-fade-in: fade-in 0.6s ease-out forwards;
-  --animate-slide-up: slide-up 0.5s ease-out forwards;
+  --color-primary: #2563EB; /* Primary Blue */
+  --color-primary-light: #3B82F6; 
+  --color-accent: #F97316; /* Accent Orange */
+  --color-bg-main: #F9FAFB; /* Background Light Gray */
+  --color-bg-panel: #FFFFFF; /* White Cards */
+  --color-border: #E5E7EB; /* Light Gray Border */
+  --color-text-main: #111827; /* Dark Gray Text */
+  --color-text-muted: #6B7280; /* Muted Gray Text */
+  --animate-fade-in: fade-in 0.3s ease-in-out forwards;
+  --animate-slide-up: slide-up 0.3s ease-in-out forwards;
   
   @keyframes fade-in {
     from { opacity: 0; }
@@ -32,21 +34,22 @@ html {
 
 body {
   font-family: 'Inter', 'Poppins', sans-serif;
-  background-color: var(--color-bg-dark);
-  color: #d4d4d8; /* zinc-300 */
+  background-color: var(--color-bg-main);
+  color: var(--color-text-main);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Base Panel style replacing old glass-panel */
+/* Base Panel style for white cards */
 .glass-panel {
   background: var(--color-bg-panel);
-  border: 1px solid var(--color-glass-border);
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.03);
+  border-radius: 16px;
 }
 
 .text-gradient {
-  background: linear-gradient(135deg, var(--color-brand-red), var(--color-brand-red-light));
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-light));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -58,8 +61,8 @@ body {
 }
 .hover-lift:hover {
   transform: translateY(-4px);
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.25);
-  border-color: #3f3f46; /* zinc-700 */
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  border-color: #D1D5DB; /* gray-300 */
 }
 
 /* Custom scrollbar */
@@ -67,12 +70,12 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--color-bg-dark); 
+  background: var(--color-bg-main); 
 }
 ::-webkit-scrollbar-thumb {
-  background: #3f3f46; 
+  background: #D1D5DB; 
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #52525b; 
+  background: #9CA3AF; 
 }

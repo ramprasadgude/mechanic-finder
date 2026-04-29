@@ -35,109 +35,31 @@ const MapView = ({ mechanics, onRequest }) => {
 
   if (loadError || !import.meta.env.VITE_GOOGLE_MAPS_API_KEY) {
     return (
-      <div className="w-full h-[600px] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-zinc-800 relative z-10 flex flex-col items-center justify-center bg-zinc-900 text-center p-8">
-        <FaWrench className="text-5xl text-brand-red mb-4" />
-        <h2 className="text-2xl font-bold text-white mb-2">Map Configuration Required</h2>
-        <p className="text-zinc-400">Please add your <code className="bg-zinc-800 px-2 py-1 rounded">VITE_GOOGLE_MAPS_API_KEY</code> to the <code className="bg-zinc-800 px-2 py-1 rounded">frontend/.env</code> file to enable Google Maps integration.</p>
+      <div className="w-full h-[600px] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-gray-200 relative z-10 flex flex-col items-center justify-center bg-white text-center p-8">
+        <FaWrench className="text-5xl text-blue-600 mb-4" />
+        <h2 className="text-2xl font-bold text-gray-900 mb-2">Map Configuration Required</h2>
+        <p className="text-gray-600">Please add your <code className="bg-gray-100 px-2 py-1 rounded">VITE_GOOGLE_MAPS_API_KEY</code> to the <code className="bg-gray-100 px-2 py-1 rounded">frontend/.env</code> file to enable Google Maps integration.</p>
       </div>
     );
   }
 
   if (!isLoaded) {
     return (
-      <div className="w-full h-[600px] rounded-2xl overflow-hidden border border-zinc-800 flex items-center justify-center bg-zinc-900">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-brand-red"></div>
+      <div className="w-full h-[600px] rounded-2xl overflow-hidden border border-gray-200 flex items-center justify-center bg-white">
+        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-blue-600"></div>
       </div>
     );
   }
 
   return (
-    <div className="w-full h-[600px] rounded-2xl overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)] border border-zinc-800 relative z-10">
+    <div className="w-full h-[600px] rounded-2xl overflow-hidden shadow-lg border border-gray-200 relative z-10">
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
         zoom={zoom}
         options={{
-          styles: [
-            { elementType: "geometry", stylers: [{ color: "#242f3e" }] },
-            { elementType: "labels.text.stroke", stylers: [{ color: "#242f3e" }] },
-            { elementType: "labels.text.fill", stylers: [{ color: "#746855" }] },
-            {
-              featureType: "administrative.locality",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#d59563" }],
-            },
-            {
-              featureType: "poi",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#d59563" }],
-            },
-            {
-              featureType: "poi.park",
-              elementType: "geometry",
-              stylers: [{ color: "#263c3f" }],
-            },
-            {
-              featureType: "poi.park",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#6b9a76" }],
-            },
-            {
-              featureType: "road",
-              elementType: "geometry",
-              stylers: [{ color: "#38414e" }],
-            },
-            {
-              featureType: "road",
-              elementType: "geometry.stroke",
-              stylers: [{ color: "#212a37" }],
-            },
-            {
-              featureType: "road",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#9ca5b3" }],
-            },
-            {
-              featureType: "road.highway",
-              elementType: "geometry",
-              stylers: [{ color: "#746855" }],
-            },
-            {
-              featureType: "road.highway",
-              elementType: "geometry.stroke",
-              stylers: [{ color: "#1f2835" }],
-            },
-            {
-              featureType: "road.highway",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#f3d19c" }],
-            },
-            {
-              featureType: "transit",
-              elementType: "geometry",
-              stylers: [{ color: "#2f3948" }],
-            },
-            {
-              featureType: "transit.station",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#d59563" }],
-            },
-            {
-              featureType: "water",
-              elementType: "geometry",
-              stylers: [{ color: "#17263c" }],
-            },
-            {
-              featureType: "water",
-              elementType: "labels.text.fill",
-              stylers: [{ color: "#515c6d" }],
-            },
-            {
-              featureType: "water",
-              elementType: "labels.text.stroke",
-              stylers: [{ color: "#17263c" }],
-            },
-          ]
+          // Use default light Google Maps styling instead of dark theme overrides
+          disableDefaultUI: false
         }}
       >
         {mechanics?.map((mechanic) => {
@@ -159,16 +81,16 @@ const MapView = ({ mechanics, onRequest }) => {
           >
             <div className="p-2 min-w-[200px] text-zinc-900">
               <h3 className="font-bold text-lg mb-1">{selectedMechanic.name}</h3>
-              <p className="text-zinc-600 text-sm mb-2 font-medium">{selectedMechanic.specialty}</p>
-              <div className="flex items-center gap-1 text-brand-red text-sm mb-3">
+              <p className="text-gray-400 text-sm mb-2 font-medium">{selectedMechanic.specialty}</p>
+              <div className="flex items-center gap-1 text-blue-600 text-sm mb-3">
                 <FaStar />
                 <span className="font-bold text-black">{selectedMechanic.rating ? selectedMechanic.rating.toFixed(1) : 'New'}</span>
-                <span className="text-zinc-500 text-xs ml-1">({selectedMechanic.numOfReviews} reviews)</span>
+                <span className="text-gray-500 text-xs ml-1">({selectedMechanic.numOfReviews} reviews)</span>
               </div>
               {onRequest && selectedMechanic.available && (
                 <button
                   onClick={() => onRequest(selectedMechanic)}
-                  className="w-full bg-brand-red text-white py-2 rounded-lg font-bold text-sm shadow-[0_0_10px_rgba(234,0,41,0.3)] hover:bg-brand-red-light transition-colors"
+                  className="w-full bg-blue-600 text-white py-2 rounded-xl font-bold text-sm shadow-sm hover:bg-blue-700 transition-colors"
                 >
                   Request Service
                 </button>
